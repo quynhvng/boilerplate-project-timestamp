@@ -24,6 +24,26 @@ app.get("/api/hello", function (req, res) {
   res.json({greeting: 'hello API'});
 });
 
+// date API endpoint
+app.get('/api/:date?', function(req, res) {
+    let obj = {};
+    let date = req.params.date;
+
+    if (date) {
+        (Number.isInteger(Number(date)))
+            ? obj.unix = Number(date)
+            : obj.unix = new Date(date).getTime()
+    }
+    else {
+        obj.unix = new Date().getTime();
+    }
+
+    (obj.unix)
+        ? obj.utc = new Date(obj.unix).toUTCString()
+        : obj = { error: 'Invalid Date' }
+
+    res.json(obj);
+})
 
 
 // listen for requests :)
